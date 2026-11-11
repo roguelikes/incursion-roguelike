@@ -401,6 +401,16 @@ int main(int argc, char *argv[]) {
             Error("Failed to locate Incursion directory under debugger (error 23)");
     }
 
+#ifndef _WIN32
+    /* The game chdir()s around, so a relative path like "." must be made absolute. */
+    {
+        char absPath[MAX_PATH_LENGTH];
+        if (!realpath(executablePath, absPath))
+            Error("Failed to resolve Incursion directory '%s'", executablePath);
+        strcpy(executablePath, absPath);
+    }
+#endif
+
     /* Google Breakpad is only compiled into Release builds, which get distributed.
      * Debug builds get the option to break out into the debugger, which makes it
      * superfluous in that case. */

@@ -54,7 +54,7 @@ extern FILE* yyin;
 void yyrestart(FILE*);
 void GenerateDispatch();
 int16 Errors;
-extern long yypos;
+extern int32 yypos;
 extern char preprocFilename[1024]; 
 extern int16 currMap;
 extern int16 brace_level, decl_state;

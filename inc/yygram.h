@@ -1,8 +1,8 @@
 #ifndef YYSTYPE
-#define YYSTYPE long
+#define YYSTYPE int32
 #endif
 extern YYSTYPE yylval;
-extern long yypos;
+extern int32 yypos;
 
 #define MEMBER_OP 496
 #define ELLIPSIS 495

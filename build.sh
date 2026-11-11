@@ -9,7 +9,7 @@ set -e
 
 # Compiler and flags
 CXX="g++" # C++ compiler
-CXXFLAGS=("-std=c++17" "-O2" -w "-Wno-register") # Using C++17, with optimizations and warnings "-Wall" "-Wextra"
+CXXFLAGS=("-std=c++17" "-O2" -w "-Wno-register" "-Wno-c++11-narrowing") # Using C++17, with optimizations and warnings "-Wall" "-Wextra"
 CC="gcc" # C compiler
 CFLAGS=("-std=c11" "-O2" "-Wall" "-Wextra") # C compilation flags (e.g., C11 standard)
 

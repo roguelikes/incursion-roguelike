@@ -29,18 +29,18 @@ typedef signed char       int8;
 typedef signed short      int16;
 typedef unsigned char     uint8;
 typedef unsigned short    uint16;
-typedef unsigned long     uint32;
-typedef signed long       int32;
-typedef unsigned long     rID;
+typedef unsigned int      uint32;
+typedef signed int        int32;
+typedef unsigned int      rID;
 typedef signed char       Dir;
 typedef void*             Param;
 typedef uint32            Glyph;
 typedef int8              EvReturn;
 
-typedef signed long       hText;
-typedef signed long       hCode;
-typedef signed long       hData;
-typedef signed long       hObj;
+typedef signed int        hText;
+typedef signed int        hCode;
+typedef signed int        hData;
+typedef signed int        hObj;
 
 #define OBJ_TABLE_SIZE   65536
 /* ww: was 4096, but a recent profile revealed Registry::Get() to be 
@@ -4625,13 +4625,13 @@ typedef signed long       hObj;
 #define CONT        62
 #define LAST        63
 
-#define TC_LPAREN    0xFF000001 // '('
-#define TC_RPAREN    0xFF000002 // ')'
-#define TC_CASE      0xFF000003 // '[expr]:' (process next seg if true)
-#define TC_CHOICE    0xFF000004 // '|'
-#define TC_TERM      0xFF000005 // ';'
-#define TC_ACTION    0xFF000006 // '[action]'
-#define TC_WCHOICE   0xFF000007 // '60%'
+#define TC_LPAREN    ((int32)0xFF000001) // '('
+#define TC_RPAREN    ((int32)0xFF000002) // ')'
+#define TC_CASE      ((int32)0xFF000003) // '[expr]:' (process next seg if true)
+#define TC_CHOICE    ((int32)0xFF000004) // '|'
+#define TC_TERM      ((int32)0xFF000005) // ';'
+#define TC_ACTION    ((int32)0xFF000006) // '[action]'
+#define TC_WCHOICE   ((int32)0xFF000007) // '60%'
 
 #define MAX_OVERLAY_GLYPHS 250
 

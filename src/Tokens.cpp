@@ -1109,7 +1109,7 @@ YY_RULE_SETUP
 case 6:
 YY_RULE_SETUP
 #line 269 "lang\\Tokens.Lex"
-{ char ch1, ch2; int16 MapPos = 0, sz = -1, szl = 0; long ln = yypos;
+{ char ch1, ch2; int16 MapPos = 0, sz = -1, szl = 0; int32 ln = yypos;
          bool warned = false; char *c, *g;
          while ((ch1 = yyinput()) != ':' && ch1!=EOF) {
            ReenterMapLoop:

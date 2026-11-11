@@ -216,8 +216,8 @@ long sym;
 long lookaheadsym;
 /* next input token */
 
-extern long yypos;
-long yypos = 1;
+extern int32 yypos;
+int32 yypos = 1;
 /* this variable must be set by the scanner */
 
 PRIVATE long lookaheadpos;
