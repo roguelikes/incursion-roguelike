@@ -402,9 +402,9 @@ EvReturn Character::Sacrifice(EventInfo &e)
     sacMult = 10;
     switch (SacList[sacCat*2+1])
       {
-        case SAC_ANGRY:       goto Angry; 
-        case SAC_ABOMINATION: goto Abomination;
-        case SAC_UNWORTHY:    goto Unworthy;
+        case (rID)SAC_ANGRY:       goto Angry; 
+        case (rID)SAC_ABOMINATION: goto Abomination;
+        case (rID)SAC_UNWORTHY:    goto Unworthy;
         default:
           if (SacList[sacCat*2+1] > 0)
               sacMult = (int16)SacList[sacCat*2+1];

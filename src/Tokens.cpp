@@ -802,9 +802,13 @@ YYSTYPE DoKeywords(const char *text)
 #define string 2
 
 /*windows compatibility case*/
+#ifdef WIN32
 #include <io.h>
 #define isatty _isatty
 #define fileno _fileno
+#else
+#include <unistd.h>
+#endif
     
 #ifndef YY_EXTRA_TYPE
 #define YY_EXTRA_TYPE void *

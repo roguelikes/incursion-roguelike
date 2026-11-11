@@ -68,7 +68,9 @@
 #include <stdarg.h>
 #include <ctype.h> 
 #include <time.h>
+#ifndef __APPLE__
 #include <malloc.h>
+#endif
 #include <Windows.h>
 #undef ERROR
 #undef EV_BREAK
@@ -269,7 +271,7 @@ class cursesTerm: public TextTerm
               envLibPath = getenv("INCURSIONLIBPATH");
               if (envLibPath != NULL && strlen(envLibPath)) {
                   if (strcat(s, envLibPath)) {
-                      if (s[strlen(s) - 1] == '\\')
+                      if (s[strlen(s) - 1] == '/')
                           s[strlen(s) - 1] = '\0';
                   }
               }
@@ -400,8 +402,8 @@ int main(int argc, char *argv[]) {
 
     if (envPath != NULL) {
         if (strlen(envPath) > 0 && strcat(executablePath, envPath)) {
-            if (executablePath[strlen(executablePath) - 1] != '\\')
-                strncat(executablePath, "\\", 1);
+            if (executablePath[strlen(executablePath) - 1] != '/')
+                strncat(executablePath, "/", 1);
         }
     }
 
@@ -409,7 +411,7 @@ int main(int argc, char *argv[]) {
         /* If run normally, check to see from which directory, and if there is one, use it. */
         if (!IsDebuggerPresent() && argc >= 1) {
             /* argv[0] is the filename and maybe the path before it, if the path is there grab it. */
-            const char *str = strrchr(argv[0], '\\');
+            const char *str = strrchr(argv[0], '/');
             if (str != NULL) {
                 int16 n = str - argv[0]; /* Copy the separator too. */
                 if (!strncpy(executablePath, argv[0], n))
@@ -1058,18 +1060,18 @@ void cursesTerm::ShutDown() {
 void cursesTerm::SetIncursionDirectory(const char *s) {
     char tmp[MAX_PATH_LENGTH] = "";
     IncursionDirectory = (const char *)s;
-    IncursionDirectory += "\\";
+    IncursionDirectory += "/";
 
     strcpy(tmp, s);
-    strcat(tmp, "\\mod");
+    strcat(tmp, "/mod");
     _mkdir(tmp);
 
     strcpy(tmp, s);
-    strcat(tmp, "\\logs");
+    strcat(tmp, "/logs");
     _mkdir(tmp);
 
     strcpy(tmp, s);
-    strcat(tmp, "\\save");
+    strcat(tmp, "/save");
     _mkdir(tmp);
 }
 
@@ -1482,7 +1484,7 @@ char *cursesTerm::MenuListFiles(const char * filespec, uint16 flags, const char 
     int option_count = -1;
 	WIN32_FIND_DATAA data;
 	HANDLE filehandle;
-	String pathdir = CurrentDirectory + "\\" + filespec;
+	String pathdir = CurrentDirectory + "/" + filespec;
 
 	filehandle = FindFirstFileA(pathdir, &data);
 	if (filehandle != INVALID_HANDLE_VALUE) {
@@ -1512,7 +1514,7 @@ char *cursesTerm::MenuListFiles(const char * filespec, uint16 flags, const char 
 bool cursesTerm::FirstFile(char * filespec) {
 #ifdef WIN32
     WIN32_FIND_DATAA finddata;
-    String pathdir = CurrentDirectory + "\\" + filespec;
+    String pathdir = CurrentDirectory + "/" + filespec;
 
 	if (findhandle != NULL)
 		FindClose(findhandle);

@@ -2047,7 +2047,7 @@ void Game::ListItemsByLevel()
 
     T1->Box(WIN_SCREEN,BOX_WIDEBOX,YELLOW,GREY,full);
 
-    String path = T1->IncursionDirectory + "\\notes\\itemlist.txt";
+    String path = T1->IncursionDirectory + "/notes/itemlist.txt";
 
     FILE * fp;
     fp = fopen((const char *)path,"wt");
@@ -2260,7 +2260,7 @@ void Player::Gravestone()
     for (int i=0; i<=9999; i++) {
       String filespec;
 
-      filespec = Format("%s\\dump%04d.txt",(const char*)MyTerm->LogSubDir(),i);
+      filespec = Format("%s/dump%04d.txt",(const char*)MyTerm->LogSubDir(),i);
 
       FILE * fp = fopen(filespec,"rt");
       if (fp) { 

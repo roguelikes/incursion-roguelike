@@ -75,7 +75,7 @@ typedef signed long       hObj;
 #ifdef WIN32
   #define BREAKOUT __debugbreak();
 #else
-  #define BREAKOUT asm("int $3");
+  #define BREAKOUT __builtin_trap();
 #endif
 
 

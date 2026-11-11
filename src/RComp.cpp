@@ -517,7 +517,7 @@ void GenerateDispatch() {
     /* HACKFIX */
     fp = fopen((const char*)Format(
 #ifdef WIN32
-        "%s\\dispatch.h"
+        "%s/dispatch.h"
 #else
         "%s/dispatch.h"
 #endif  

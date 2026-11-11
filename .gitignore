@@ -22,3 +22,13 @@ x64_Release
 
 # Incursion specific temporary files.
 lib/program.i
+
+# macOS/Linux build
+.DS_Store
+/incursion
+/build/deps_install
+/build/incursion
+/libtcod/build
+/mod
+/save
+/logs

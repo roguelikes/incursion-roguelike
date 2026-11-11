@@ -9,7 +9,7 @@ set -e
 
 # Compiler and flags
 CXX="g++" # C++ compiler
-CXXFLAGS=("-std=c++17" "-O2" -w) # Using C++17, with optimizations and warnings "-Wall" "-Wextra"
+CXXFLAGS=("-std=c++17" "-O2" -w "-Wno-register") # Using C++17, with optimizations and warnings "-Wall" "-Wextra"
 CC="gcc" # C compiler
 CFLAGS=("-std=c11" "-O2" "-Wall" "-Wextra") # C compilation flags (e.g., C11 standard)
 
@@ -83,7 +83,7 @@ build_dependencies() {
         echo "Compiling libtcod source files (mixed C/C++)..."
         
         # Base flags common to both C and C++ compilation for libtcod
-        LIBTCOD_BASE_FLAGS=("-O2" "-g" "-Wall" "-fPIC" "-DTCOD_SDL2" "-DNO_OPENGL" $(pkg-config --cflags sdl2) "-Iinclude")
+        LIBTCOD_BASE_FLAGS=("-O2" "-g" "-Wall" "-fPIC" "-DTCOD_SDL2" "-DNO_OPENGL" "-DZ_HAVE_UNISTD_H" $(pkg-config --cflags sdl2) "-Iinclude")
 
         OBJECT_FILES=()
         for SRC_FILE in ${LIBTCOD_SOURCES}; do
@@ -121,15 +121,6 @@ build_dependencies() {
     else
         echo "libtcod is already built."
     fi
-
-    if [ ! -f "${BUILD_DIR}/modaccent" ]; then
-        echo "Building modaccent..."
-        cd "${MODACCENT_SRC_DIR}"
-        "${CC}" "${CFLAGS[@]}" -Iinclude -o "${BUILD_DIR}/modaccent" $(find src -name "*.c")
-        cd "${ROOT_DIR}" # Return to the project root
-    else
-        echo "modaccent is already built."
-    fi
 }
 
 build_incursion() {
@@ -151,13 +142,21 @@ build_incursion() {
     LINKER_PATHS="-L${DEPS_BUILD_DIR}/lib"
     LIBRARIES="$(pkg-config --libs sdl2) -ltcod"
 
+    # src/*.c (lz, rle, cpp preprocessor) are plain C; -DDEBUG builds the IncursionScript compiler (RComp.cpp)
+    # that compiles lib/*.irc into the module on first run.
+    mkdir -p "${BUILD_DIR}/incursion"
+    for CSRC in src/*.c; do
+        "${CC}" -std=gnu89 -O2 -w -Wno-implicit-int -Wno-return-mismatch -Wno-implicit-function-declaration -Iinc -c "${CSRC}" -o "${BUILD_DIR}/incursion/$(basename ${CSRC}).o"
+    done
+
     echo "Compiling and linking Incursion..."
     echo "Source files: ${INCURSION_SRC_FILES}"
 
     echo "Compiling with CXXFLAGS: ${CXXFLAGS[*]}"
-    ${CXX} "${CXXFLAGS[@]}" -DLIBTCOD_TERM ${INCLUDE_PATHS} ${LINKER_PATHS} \
+    ${CXX} "${CXXFLAGS[@]}" -DDEBUG -DLIBTCOD_TERM ${INCLUDE_PATHS} ${LINKER_PATHS} \
         -o "${BUILD_DIR}/incursion/${INCURSION_EXE_NAME}" \
         ${INCURSION_SRC_FILES} \
+        ${BUILD_DIR}/incursion/*.c.o \
         ${LIBRARIES}
 
     echo "--- Build successful! ---"
